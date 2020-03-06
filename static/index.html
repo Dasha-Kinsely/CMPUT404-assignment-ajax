@@ -22,8 +22,8 @@
     "/>
     <script src="json2.js"></script>
   </head> 
-  <body bgcolor="black" height="100%" width="100%"> 
-    <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas> 
+  <body bgcolor="white" height="100%" width="100%"> 
+    <canvas id="c" width="90%" height="90%" style="-webkit-tap-highlight-color: transparent;"></canvas> 
     <script>
 var canvas = document.getElementById('c');
 var host = window.location.host;
@@ -73,19 +73,15 @@ function drawCircle(context,entity) {
         var babyface = new Image();
         //moveTo(x,y);
         fillStyle = entity["colour"];
-        if (fillStyle == "colour"){
-            babyface.src = "babyface.png";
-        } else {
-            babyface.src = "cry.jpg";
-        }
+        babyface.src = "babyface.png";
         //https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_img
-        drawImage(babyface, x-(entity["radius"]/2), y-(entity["radius"]/2));                         
+        drawImage(babyface, x-(entity["radius"]/2), y-(entity["radius"]/2));                 
     }
 }
 
 function prepEntity(entity) {
     if (!entity["colour"]) {
-        entity["colour"] = "pngimg";
+        entity["colour"] = "white";
     }
     if (!entity["radius"]) {
         entity["radius"] = 50;
@@ -259,15 +255,15 @@ mouse = (function() {
 // Add the application specific mouse listeners!
 //XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'babyface'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'yellow'});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'babyface'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'pink'});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'cry',
+    addEntityWithoutName({'x':x,'y':y,'colour':'white',
                           'radius':10});
 });
 
