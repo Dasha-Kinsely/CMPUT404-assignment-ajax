@@ -74,15 +74,17 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return redirect(url_for('static',filename='index.html'))
+    return app.send_static_file('index.html')
     
 # always return 200
+# referred to https://www.w3schools.com/python/python_json.asp for making clean json response
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    myWorld.set(entity, flask_post_json())
-    my_entity = myWorld.get(entity)
-    return json.dumps(my_entity), 200
+    content = flask_post_json()
+    myWorld.set(entity, content)
+    my_response = myWorld.get(entity)
+    return json.dumps(my_response), 200
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
@@ -92,13 +94,15 @@ def world():
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return json.dumps(myWorld.get(entity)), 200
+    get_response = myWorld.get(entity)
+    return json.dumps(get_response), 200
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return json.dumps(myWorld.world()), 200
+    cleared_res = myWorld.world()
+    return json.dumps(cleared_res), 200
 
 if __name__ == "__main__":
     app.run()

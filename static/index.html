@@ -30,7 +30,7 @@ var host = window.location.host;
 var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
-var globalUrl = "http://" + host;
+var globalUrl = `http://${host}/`;
 
 function sendJSONXMLHTTPRequest(url, objects, callback) {
     //referred to https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
@@ -73,10 +73,10 @@ function drawCircle(context,entity) {
         var babyface = new Image();
         //moveTo(x,y);
         fillStyle = entity["colour"];
-        if (fillStyle == "color"){
+        if (fillStyle == "colour"){
             babyface.src = "babyface.png";
         } else {
-            babyface.src = "cry.png";
+            babyface.src = "cry.jpg";
         }
         //https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_img
         drawImage(babyface, x-(entity["radius"]/2), y-(entity["radius"]/2));                         
@@ -146,9 +146,9 @@ function addEntity(entity, data) {
     drawNextFrame(); // (but should we?)
     //XXX: Send a XHTML Request that updates the entity you just  modified!
     let reqUrl = globalUrl+entity;
-    sendJSONXMLHTTPRequest(reqUrl, data, checkForUpdate)
+    sendJSONXMLHTTPRequest(reqUrl, data, setWorldToRes)
 }
-function checkForUpdate(response) {
+function setWorldToRes(response) {
             world = response;
             drawNextFrame();
         }
@@ -275,8 +275,8 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
 function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
     drawFrame();
-    let worldUrl = globalUrl+"/world";
-    sendJSONXMLHTTPRequest(url, null, checkForUpdate);
+    let worldUrl = globalUrl+"world";
+    sendJSONXMLHTTPRequest(url, world, setWorldToRes);
 }
 
 // 30 frames per second
